@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import subprocess
 import shlex
+from shutil import copytree, ignore_patterns
 import os
 import datetime
 import logging
@@ -21,21 +22,29 @@ def backup_old_builds(build_directory):
     if os.path.isdir(app_directory):
         os.rename(app_directory, "{}.{}".format(app_directory, datetime.datetime.now().timestamp()))
  
-def create_directotory_tree(build_directory):
-    if not os.path.isdir(build_directory):
-        os.mkdir(build_directory)
+def create_directory_tree(build_directory):
+    directories = ["Resources","MacOS"]
+    for directory in directories:
+        os.makedirs("{}{}.app/Contents/{}".format(build_directory, get_project_name(), directory))
 
-def build_app():
+def publish_app():
     publish_command = shlex.split("dotnet publish -c Release -r osx-x64 /p:PublishReadyToRun=false /p:TieredCompilation=false --self-contained")
-
     try:
         subprocess.run(publish_command,check=True, capture_output=True)
     except subprocess.CalledProcessError as err:
         logging.error(str(err.output))
 
+def copy_sources():
+    copytree("bin/Release/netcoreapp3.1/osx-x64/publish/Content", "bin/Release/osx-64/{}.app/Contents/Resources/Content".format(get_project_name()))
+    copytree("bin/Release/netcoreapp3.1/osx-x64/publish/", "bin/Release/osx-64/{}.app/Contents/MacOS/".format(get_project_name()), dirs_exist_ok=True, ignore=ignore_patterns("Content"))
+
 def main():
     build_directory = "bin/Release/osx-64/"
-    create_directotory_tree(build_directory)
+    
+    backup_old_builds(build_directory)
+    create_directory_tree(build_directory)
+    publish_app()
+    copy_sources()
 
 if __name__ == "__main__":    
     main()
