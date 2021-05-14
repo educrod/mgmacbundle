@@ -4,6 +4,7 @@ import shlex
 from shutil import copytree, ignore_patterns
 from string import Template
 import os
+import platform
 import datetime
 import logging
 
@@ -38,7 +39,10 @@ def publish_app():
 
 def create_infoplist():
         
-    values = {"YourGame":get_project_name()}    
+    values = { "CFBundleExecutable":get_project_name(),
+                "LSMinimumSystemVersion":platform.mac_ver()[0]
+    }    
+    
     with open ('Info.plist', 'w') as f:
         f.write(Template(open("templates/Info.plist").read()).substitute(values))
 
