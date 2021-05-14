@@ -2,6 +2,7 @@
 import subprocess
 import shlex
 from shutil import copytree, ignore_patterns
+from string import Template
 import os
 import datetime
 import logging
@@ -34,13 +35,21 @@ def publish_app():
     except subprocess.CalledProcessError as err:
         logging.error(str(err.output))
 
+
+def create_infoplist():
+        
+    values = {"YourGame":get_project_name()}    
+    with open ('Info.plist', 'w') as f:
+        f.write(Template(open("templates/Info.plist").read()).substitute(values))
+
+
 def copy_sources():
     copytree("bin/Release/netcoreapp3.1/osx-x64/publish/Content", "bin/Release/osx-64/{}.app/Contents/Resources/Content".format(get_project_name()))
     copytree("bin/Release/netcoreapp3.1/osx-x64/publish/", "bin/Release/osx-64/{}.app/Contents/MacOS/".format(get_project_name()), dirs_exist_ok=True, ignore=ignore_patterns("Content"))
 
 def main():
     build_directory = "bin/Release/osx-64/"
-    
+    create_infoplist()
     backup_old_builds(build_directory)
     create_directory_tree(build_directory)
     publish_app()
