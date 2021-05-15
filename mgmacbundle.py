@@ -15,7 +15,8 @@ def get_project_name():
         lines = file.readlines()
     for line in lines:
         if line.lstrip().startswith("<assemblyIdentity"):
-            project_name = line.partition("name=\"")[2].rstrip('\n\"/>').title()
+            #project_name = line.partition("name=\"")[2].rstrip('\n\"/>').title()
+            project_name = line.partition("name=\"")[2].rstrip('\n\"/>')
             
     return project_name
             
