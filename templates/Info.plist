@@ -27,7 +27,7 @@
     <key>LSMinimumSystemVersion</key>
     <string>$LSMinimumSystemVersion</string>
     <key>NSHumanReadableCopyright</key>
-    <string>Copyright © 2020</string>
+    <string>$NSHumanReadableCopyright</string>
     <key>NSPrincipalClass</key>
     <string>NSApplication</string>
 </dict>
