@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import subprocess
 import shlex
-from shutil import copytree, ignore_patterns
+from shutil import copytree, copy, move, ignore_patterns
 from string import Template
 import os
 import platform
@@ -41,7 +41,8 @@ def publish_app():
 def create_infoplist():       
     values = { "CFBundleExecutable":get_project_name(),
                 "LSMinimumSystemVersion":platform.mac_ver()[0],
-                "NSHumanReadableCopyright":"Copyright © {}".format(datetime.datetime.today().year)
+                "NSHumanReadableCopyright":"Copyright © {}".format(datetime.datetime.today().year),
+                "CFBundleIconFile":get_project_name()
     }       
     with open ('Info.plist', 'w') as f:
         f.write(Template(open("templates/Info.plist").read()).substitute(values))
@@ -50,6 +51,8 @@ def create_infoplist():
 def copy_sources():
     copytree("bin/Release/netcoreapp3.1/osx-x64/publish/Content", "bin/Release/osx-64/{}.app/Contents/Resources/Content".format(get_project_name()))
     copytree("bin/Release/netcoreapp3.1/osx-x64/publish/", "bin/Release/osx-64/{}.app/Contents/MacOS/".format(get_project_name()), dirs_exist_ok=True, ignore=ignore_patterns("Content"))
+    copy("templates/Icon.icns", "bin/Release/osx-64/{0}.app/Contents/Resources/{0}.icns".format(get_project_name()))
+    move("Info.plist", "bin/Release/osx-64/{0}.app/Contents/".format(get_project_name()))
 
 def main():    
     build_directory = "bin/Release/osx-64/"
