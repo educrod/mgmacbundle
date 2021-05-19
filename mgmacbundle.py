@@ -10,12 +10,13 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
+os.chdir("../")
+
 def get_project_name():
     with open("app.manifest", 'r') as file:
         lines = file.readlines()
     for line in lines:
         if line.lstrip().startswith("<assemblyIdentity"):
-            #project_name = line.partition("name=\"")[2].rstrip('\n\"/>').title()
             project_name = line.partition("name=\"")[2].rstrip('\n\"/>')
             
     return project_name
