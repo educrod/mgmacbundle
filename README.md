@@ -6,3 +6,11 @@
 ```bash 
 git clone https://github.com/educrod/mgmacbundle.git
 ```
+###### Go to the cloned directory
+```bash
+cd mgmacbundle
+```
+###### Run the python script
+```bash
+python mgmacbundle.py
+```
