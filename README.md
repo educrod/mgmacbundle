@@ -1,6 +1,6 @@
-### mgmacbundle is a python scrip that build your monogame project into a application bundle for macOS.
+#### mgmacbundle is a python scrip that build your monogame project into a application bundle for macOS.
 
-#### How to use it?
+##### How to use it?
 
 ###### Clone the repository in your root project directory (where your .csproj file resides)
 ```bash 
