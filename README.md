@@ -1,1 +1,1 @@
-# mgmacbundle
+#mgmacbundle is a python scrip that build your monogame game into a application bundle for macOS.
