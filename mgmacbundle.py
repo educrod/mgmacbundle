@@ -54,7 +54,7 @@ def create_infoplist():
 def copy_sources():
     copytree("bin/Release/netcoreapp3.1/osx-x64/publish/Content", "bin/Release/osx-64/{}.app/Contents/Resources/Content".format(get_project_name()))
     copytree("bin/Release/netcoreapp3.1/osx-x64/publish/", "bin/Release/osx-64/{}.app/Contents/MacOS/".format(get_project_name()), dirs_exist_ok=True, ignore=ignore_patterns("Content"))
-    copy("templates/Icon.icns", "bin/Release/osx-64/{0}.app/Contents/Resources/{0}.icns".format(get_project_name()))
+    copy("mgmacbundle/templates/Icon.icns", "bin/Release/osx-64/{0}.app/Contents/Resources/{0}.icns".format(get_project_name()))
     move("Info.plist", "bin/Release/osx-64/{0}.app/Contents/".format(get_project_name()))
 
 def main():    
