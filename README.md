@@ -2,5 +2,7 @@
 
 #### How to use it?
 
-###### Clone the repository in your root directory project (where your .csproj file resides)
-``` git clone https://github.com/educrod/mgmacbundle.git```
+###### Clone the repository in your root project directory (where your .csproj file resides)
+```bash 
+git clone https://github.com/educrod/mgmacbundle.git
+```
