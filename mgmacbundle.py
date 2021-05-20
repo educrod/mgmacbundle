@@ -10,6 +10,8 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
+os.chdir("..")
+
 def get_project_name():
     with open("app.manifest", 'r') as file:
         lines = file.readlines()
@@ -39,14 +41,15 @@ def publish_app():
 
 
 def create_infoplist():       
-    os.chdir("..")
+    
     values = { "CFBundleExecutable":get_project_name(),
                 "LSMinimumSystemVersion":platform.mac_ver()[0],
                 "NSHumanReadableCopyright":"Copyright © {}".format(datetime.datetime.today().year),
                 "CFBundleIconFile":get_project_name()
     }       
+    
     with open ('Info.plist', 'w') as f:
-        f.write(Template(open("templates/Info.plist").read()).substitute(values))
+        f.write(Template(open("mgmacbundle/templates/Info.plist").read()).substitute(values))
 
 
 def copy_sources():
