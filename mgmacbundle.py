@@ -26,8 +26,7 @@ def backup_old_builds(build_directory):
     if os.path.isdir(app_directory):
         os.rename(app_directory, "{}.{}".format(app_directory, datetime.datetime.now().timestamp()))
  
-def create_directory_tree(build_directory):
-    os.chdir("../")
+def create_directory_tree(build_directory):    
     directories = ["Resources","MacOS"]
     for directory in directories:
         os.makedirs("{}{}.app/Contents/{}".format(build_directory, get_project_name(), directory))
