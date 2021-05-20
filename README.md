@@ -14,3 +14,4 @@ cd mgmacbundle
 ```bash
 python mgmacbundle.py
 ```
+###### Your application bundle will be on bin/Release/osx-64/ directory
