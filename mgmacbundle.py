@@ -11,7 +11,6 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 def get_project_name():
-    os.chdir("../")
     with open("app.manifest", 'r') as file:
         lines = file.readlines()
     for line in lines:
@@ -32,7 +31,6 @@ def create_directory_tree(build_directory):
         os.makedirs("{}{}.app/Contents/{}".format(build_directory, get_project_name(), directory))
 
 def publish_app():
-    os.chdir("../")
     publish_command = shlex.split("dotnet publish -c Release -r osx-x64 /p:PublishReadyToRun=false /p:TieredCompilation=false --self-contained")
     try:
         subprocess.run(publish_command,check=True, capture_output=True)
@@ -41,6 +39,7 @@ def publish_app():
 
 
 def create_infoplist():       
+    os.chdir("..")
     values = { "CFBundleExecutable":get_project_name(),
                 "LSMinimumSystemVersion":platform.mac_ver()[0],
                 "NSHumanReadableCopyright":"Copyright © {}".format(datetime.datetime.today().year),
@@ -51,7 +50,6 @@ def create_infoplist():
 
 
 def copy_sources():
-    os.chdir("../")
     copytree("bin/Release/netcoreapp3.1/osx-x64/publish/Content", "bin/Release/osx-64/{}.app/Contents/Resources/Content".format(get_project_name()))
     copytree("bin/Release/netcoreapp3.1/osx-x64/publish/", "bin/Release/osx-64/{}.app/Contents/MacOS/".format(get_project_name()), dirs_exist_ok=True, ignore=ignore_patterns("Content"))
     copy("templates/Icon.icns", "bin/Release/osx-64/{0}.app/Contents/Resources/{0}.icns".format(get_project_name()))
